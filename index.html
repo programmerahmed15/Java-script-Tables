@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Multiplication Tables</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            margin-top: 300px;
+            margin-left: 550px;
+            
+        }
+        .table-container {
+            display: flex;
+            flex-wrap: wrap;
+           
+        }
+        .table-wrapper {
+            display: none;
+            margin: 10px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: calc(10% - 20px);
+            
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+           
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+           
+        }
+        th {
+            background-color: #f4f4f4;
+            
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search for a table (e.g., 5)">
+</div>
+
+<div class="table-container" id="tableContainer">
+    <!-- Tables for 1 to 100 will be generated here -->
+    <script>
+        const container = document.querySelector('.table-container');
+
+        // Function to generate multiplication tables
+        function generateTables() {
+            for (let i = 1; i <= 10000; i++) {
+                const tableWrapper = document.createElement('div');
+                tableWrapper.className = 'table-wrapper';
+                tableWrapper.id = `table-${i}`;
+
+                const table = document.createElement('table');
+
+                const thead = document.createElement('thead');
+                const theadRow = document.createElement('tr');
+                const th = document.createElement('th');
+                th.colSpan = 2;
+                th.textContent = `Table of ${i}`;
+                theadRow.appendChild(th);
+                thead.appendChild(theadRow);
+
+                const tbody = document.createElement('tbody');
+
+                for (let j = 1; j <= 10; j++) {
+                    const tr = document.createElement('tr');
+                    const td1 = document.createElement('td');
+                    td1.textContent = `${i} x ${j}`;
+                    const td2 = document.createElement('td');
+                    td2.textContent = `${i * j}`;
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tbody.appendChild(tr);
+                }
+
+                table.appendChild(thead);
+                table.appendChild(tbody);
+                tableWrapper.appendChild(table);
+                container.appendChild(tableWrapper);
+            }
+        }
+
+        // Function to filter and display the table based on search input
+        function filterTables() {
+            const input = document.getElementById('searchInput').value;
+            const tableWrappers = document.querySelectorAll('.table-wrapper');
+
+            tableWrappers.forEach(wrapper => {
+                wrapper.style.display = 'none';
+            });
+
+            if (input) {
+                const table = document.getElementById(`table-${input}`);
+                if (table) {
+                    table.style.display = 'block';
+                }
+            }
+        }
+
+        // Generate tables on page load
+        generateTables();
+
+        // Add event listener to search input
+        document.getElementById('searchInput').addEventListener('input', filterTables);
+    </script>
+</div>
+
+</body>
+</html>
